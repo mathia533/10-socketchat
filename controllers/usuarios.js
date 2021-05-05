@@ -1,5 +1,7 @@
 const { response, request } = require('express');
 const { hashContraseña } = require('../helpers/funciones');
+
+//Obtengo el modelo del objeto
 const Usuario = require('../models/usuario');
 
 
@@ -58,7 +60,11 @@ const usuariosPost = async  (req = request, res=response) => {
 }
 
 const usuariosDelete = async (req = request, res=response) => {
+
     const {id} = req.params;
+    //const uid = req.uid;
+    
+    
     //const usuario = await Usuario.findByIdAndDelete(id);
     const usuario = await Usuario.findByIdAndUpdate(id,{estado:false});
     res.json(usuario);
