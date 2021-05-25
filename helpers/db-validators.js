@@ -1,8 +1,5 @@
 //Importacion de clases
-const Role = require('../models/role');
-const Usuario = require('../models/usuario');
-
-
+const { Categoria, Role, Usuario, Producto } = require('../models');
 
 //Validaciones
 const esRoleValido = async( rol = '' ) => {
@@ -28,11 +25,26 @@ const existeEmail = async( correo = '' ) =>{
    }
 }
 
+const existeCategoriaById = async( id = ''  ) =>{
+    //verificar si el correo existe
+   const existeCategoria = await Categoria.findById(id);
+   if(!existeCategoria){
+       throw new Error(`El id: ${ id }, no existe.`);
+   }
+}
 
+const existeProductoById = async( id = ''  ) =>{
+    //verificar si el correo existe
+   const existeProducto = await Producto.findById(id);
+   if(!existeProducto){
+       throw new Error(`El id: ${ id }, no existe.`);
+   }
+}
 
 module.exports = {
     esRoleValido,
     existeEmail,
     existeUsuarioById,
-
+    existeCategoriaById,
+    existeProductoById
 }

@@ -11,8 +11,14 @@ class Server {
         this.port = process.env.PORT;
 
         //se crean los paths que utilizaremos en el router
-        this.usuariosPath = '/api/usuarios';
-        this.authPath = '/api/auth';
+        this.paths = {
+            auth :          '/api/auth',
+            buscar:         '/api/buscar',    
+            categorias:    '/api/categorias',
+            productos:     '/api/productos',
+            usuarios:      '/api/usuarios',
+        };
+       
         
         // conectar a base de datos
         this.conectarDB();
@@ -43,8 +49,11 @@ class Server {
 
     routes(){
         //se definen las rutas que se van a llamar pasando los paths instanciados mas arriba.
-        this. app.use(this.authPath, require('../routes/auth'));  
-        this. app.use(this.usuariosPath, require('../routes/usuarios'));
+        this.app.use(this.paths.auth,       require('../routes/auth'));  
+        this.app.use(this.paths.buscar,     require('../routes/buscar'));  
+        this.app.use(this.paths.categorias, require('../routes/categorias'));
+        this.app.use(this.paths.productos,  require('../routes/productos'));
+        this.app.use(this.paths.usuarios,   require('../routes/usuarios'));
     }
 
     listen(){

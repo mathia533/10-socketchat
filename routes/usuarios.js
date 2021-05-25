@@ -15,7 +15,7 @@ const {
     esRoleValido, 
     existeEmail, 
     existeUsuarioById 
-} = require('../helpers/db-validators');
+} = require('../helpers');
 
 
 const {
@@ -24,7 +24,7 @@ const {
      usuariosPost,
      usuariosDelete,
      usuariosPatch
-    }  = require ('../controllers/usuarios');
+    }  = require ('../controllers');
 
 
 const router = Router();
