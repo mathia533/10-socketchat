@@ -94,7 +94,7 @@ const buscar = (req = request, res=response) => {
             default:
                 return res.status(500).json(
                     { 
-                        msg: 'No realizó la busqueda.'
+                        msg: 'No realizó la busqueda. , contacte al administrador para validar las colecciones. '
                     }
                 );
         }
