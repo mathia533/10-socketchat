@@ -2,7 +2,10 @@
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
+const { createServer } = require('http');
+
 const { dbConnection } = require('../database/config');
+const { socketController } = require('../sockets/controller');
 
 class Server {
     constructor(){
@@ -10,6 +13,11 @@ class Server {
         this.app = express();
         //variables de entorno que se guardan en el archivo .nv
         this.port = process.env.PORT;
+
+        //esto lo utilizo para poder usar io
+        this.server = createServer(this.app);
+        //socket io
+        this.io     =  require('socket.io')(this.server);
 
         //se crean los paths que utilizaremos en el router
         this.paths = {
@@ -31,6 +39,8 @@ class Server {
         //Rutas de mi aplicación
         this.routes();
 
+        //escuchar eventos de sockets
+        this.sockets();
     }
 
     async conectarDB(){
@@ -65,10 +75,15 @@ class Server {
         this.app.use(this.paths.uploads,   require('../routes/uploads'));
     }
 
+    sockets(){
+        this.io.on('connection', ( socket ) => socketController(socket, this.io ) );
+    }
+
     listen(){
-        this.app.listen(this.port, () => {
+        //aca cambie app por server para utilizar socket io
+        this.server.listen(this.port, () => {
             //esto es para verificar en consola que esta corriendo sin problemas y en que puerto la aplicacion.
-            console.log(`Example app listening at http://localhost:${this.port}`)
+            console.log(`Servidor corriendo en http://localhost:${this.port}`)
         });
   
     }
